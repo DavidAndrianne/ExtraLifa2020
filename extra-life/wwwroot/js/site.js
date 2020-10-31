@@ -10,11 +10,13 @@ app.renderer.backgroundColor = 0x3086D2;
 //load an image and run the `setup` function when it's done
 PIXI.Loader
 	.shared
+	.add("Content/extra-life-Logo.jpg")
 	.add("Content/Frigate_cartoonized.png")
 	.add("Content/twitch.png")
 	.load(setup);
 
 let ship;
+let donate;
 let twitch;
 
 function setup() {
@@ -38,6 +40,14 @@ function setup() {
 	twitch.interactive = true;
 	app.stage.addChild(twitch);
 
+	donate = new PIXI.Sprite(PIXI.loader.resources["Content/extra-life-Logo.jpg"].texture);
+	donate.width = 100;
+	donate.height = 100;
+	donate.on('mousedown', handleDonateClick);
+	donate.on('touchend', handleDonateClick);
+	donate.interactive = true;
+	app.stage.addChild(donate);
+
 	window.addEventListener('resize', resize);
 	app.stage.interactive = true;
 	app.stage.on("pointermove", movePointer);
@@ -51,7 +61,8 @@ function setup() {
 		// You can use the 'screen' property as the renderer visible
 		// area, this is more useful than view.width/height because
 		// it handles resolution
-		twitch.position.set(app.screen.width - 100, app.screen.height - 100);
+		twitch.position.set(app.screen.width - 100, app.screen.height - 120);
+		donate.position.set(app.screen.width - 220, app.screen.height - 120);
 	}
 
 	resize();
@@ -116,7 +127,11 @@ function movePointer(e) {
 }
 
 function handleTwitchClick(e) {
-	window.href("https://www.twitch.tv/videos/503386472", "_self");
+	window.open("https://www.twitch.tv/videos/503386472", "_self");
+}
+
+function handleDonateClick(e) {
+	window.open(" https://www.extra-life.org/index.cfm?fuseaction=donorDrive.participant&participantID=435146", "_self");
 }
 
 /// Expects 2 objects each with an X and a Y coordinate and a width & height.
